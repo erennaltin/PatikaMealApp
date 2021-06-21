@@ -8,8 +8,15 @@ import {
 } from 'react-native';
 
 const InnerCategoryItem = props => {
+  const handleMealDetail = () => {
+    props.navigation.navigate('Detail', {
+      idMeal: props.item.idMeal,
+      strMeal: props.item.strMeal,
+    });
+  };
+
   return (
-    <TouchableWithoutFeedback>
+    <TouchableWithoutFeedback onPress={handleMealDetail}>
       <View style={styles.container}>
         <Image
           style={styles.Image}

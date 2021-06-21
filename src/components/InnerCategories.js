@@ -13,7 +13,13 @@ const InnerCategories = props => {
       <FlatList
         style={styles.list}
         data={finalData.meals}
-        renderItem={({item}) => <InnerCategoryItem item={item} />}
+        renderItem={({item}) => (
+          <InnerCategoryItem
+            navigation={props.navigation}
+            route={props.route}
+            item={item}
+          />
+        )}
         keyExtractor={item => item.idMeal}
       />
     </View>

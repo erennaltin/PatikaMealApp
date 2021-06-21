@@ -2,19 +2,19 @@ import {useState, useEffect} from 'react';
 import axios from 'axios';
 
 const useFetch = url => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [finalData, setFinalData] = useState([]);
   const [error, setError] = useState(false);
 
   async function getFetch() {
-    setLoading(true);
     try {
       const response = await axios.get(url);
       setFinalData(response.data);
+      setLoading(false);
     } catch (err) {
       setError(err.message);
+      setLoading(false);
     }
-    setLoading(false);
   }
   useEffect(() => {
     getFetch();
