@@ -4,6 +4,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Categories from './components/Categories';
 import DetailPage from './components/DetailPage';
+import InnerCategories from './components/InnerCategories';
+import {Button} from 'react-native';
+
 const Stack = createStackNavigator();
 
 const Router = () => {
@@ -17,7 +20,18 @@ const Router = () => {
             headerTitleStyle: {color: 'orange', alignSelf: 'center'},
           }}
         />
-        <Stack.Screen name="Detail" component={DetailPage} />
+        <Stack.Screen
+          name="InnerCategories"
+          component={InnerCategories}
+          options={({route}) => ({
+            title: route.params.category,
+            headerTitleStyle: {
+              color: 'orange',
+              alignSelf: 'center',
+              transform: [{translateX: -30}],
+            },
+          })}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

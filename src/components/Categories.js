@@ -14,7 +14,7 @@ const Categories = props => {
         style={styles.list}
         data={finalData.categories}
         renderItem={({item}) => {
-          return <CategoryItem item={item} />;
+          return <CategoryItem navigation={props.navigation} item={item} />;
         }}
         keyExtractor={item => item.idCategory}
       />
