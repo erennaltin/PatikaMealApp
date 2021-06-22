@@ -8,34 +8,46 @@ import {
   StyleSheet,
 } from 'react-native';
 import useFetch from '../hooks/useFetch';
+import Loading from './Loading';
+import Error from './Error';
 
 const DetailPage = props => {
   const [meal, setMeal] = useState({});
+  const [error, setError] = useState(false);
   const {finalData, loading} = useFetch(
     `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${props.route.params.idMeal}`,
   );
+
   useEffect(() => {
-    !loading ? setMeal(finalData.meals[0]) : '';
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading]);
+    if (!loading && finalData.meals === undefined) {
+      setError(true);
+    } else if (!loading && finalData.meals) {
+      setMeal(finalData.meals[0]);
+    }
+  }, [finalData, loading]);
 
   const handleYoutubeLink = () => {
     Linking.openURL(meal.strYoutube);
   };
-
-  return (
-    <ScrollView style={styles.container}>
-      <Image style={styles.image} source={{uri: meal.strMealThumb}} />
-      <Text style={styles.title}> {meal.strMeal} </Text>
-      <Text style={styles.area}> {meal.strArea} </Text>
-      <Text style={styles.instruction}> {meal.strInstructions} </Text>
-      <TouchableOpacity
-        style={styles.youtubeContainer}
-        onPress={handleYoutubeLink}>
-        <Text style={styles.youtube}> Watch on Youtube!</Text>
-      </TouchableOpacity>
-    </ScrollView>
-  );
+  if (error) {
+    return <Error animation="error2" />;
+  } else if (loading) {
+    return <Loading animation="loading2" />;
+  } else {
+    return (
+      <ScrollView style={styles.container}>
+        <Image style={styles.image} source={{uri: meal.strMealThumb}} />
+        <Text style={styles.title}> {meal.strMeal} </Text>
+        <Text style={styles.area}> {meal.strArea} </Text>
+        <Text style={styles.instruction}> {meal.strInstructions} </Text>
+        <TouchableOpacity
+          style={styles.youtubeContainer}
+          onPress={handleYoutubeLink}>
+          <Text style={styles.youtube}> Watch on Youtube!</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    );
+  }
 };
 
 export default DetailPage;
